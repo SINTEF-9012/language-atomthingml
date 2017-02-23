@@ -1,0 +1,87 @@
+import "test.thingml"
+import "test2.thingml"
+
+//comment
+
+datatype Integer;
+
+/*Comment*/
+protocol p;
+
+/**
+* Comment
+*/
+
+thing MyThing
+@a "b"
+{
+
+  abstract function g()
+
+  function f(i : Integer, j : Integer) : Integer
+  do
+    print "hello"
+    p!m(0, 0)
+  end
+
+  message m(a : Integer, b:Integer)
+  message m2()
+
+  property p : Integer
+
+  property p2 : Integer
+
+  provided port p {
+    sends m, m2
+    receives m, m2
+  }
+
+  required port p2 {
+    receives m2, m
+    sends m2, m
+  }
+
+  statechart BEHAVIOR init c {
+
+    property a : Integer
+    property b : Integer
+
+    composite state c init a {
+      state a {
+
+      }
+    }
+
+    state INIT {
+      on entry do
+          print "hello world!"
+          f(a + 1, f(1))
+      end
+
+      on exit do
+        print "1234"
+      end
+
+      transition -> RUN
+      event p?m
+      guard "hello"
+      
+
+      transition -> INIT
+      event e : p?m
+      event p2?m2
+      action do
+        print "hello"
+      end
+
+    }
+
+    state RUN {
+      on entry do end
+
+      on exit do
+        p!m(0,0)
+      end
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "language-thingml",
+  "version": "0.1.0",
+  "description": "ThingML language support in Atom",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SINTEF-9012/ThingML.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SINTEF-9012/ThingML/issues"
+  },
+  "license": "Apache 2.0"
+}

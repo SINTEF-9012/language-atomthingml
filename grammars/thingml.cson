@@ -1,0 +1,745 @@
+'scopeName': 'source.thingml'
+'name': 'ThingML'
+'fileTypes': ['thingml']
+'patterns': [
+    {
+      'include': '#comments'
+    }
+    {
+      'begin': '(protocol)\\s+(\\w+)'
+      'end': ';'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.class.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'patterns': [
+        'include': '#annotation'
+      ]
+    }
+    {
+      'begin': '(import)'
+      'end': '\n'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'patterns': [
+        'include': '#string'
+      ]
+    }
+    {
+      'begin': '(datatype|object)\\s+(\\w+)'
+      'end': ';\n'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.class.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.datatype.thingml'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+      ]
+    }
+    {
+      'begin': '(thing)(\\s+fragment)?\\s+(\\w+)'
+      'end': '}'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.class.thingml'
+        '2':
+          'name': 'keyword.class.thingml'
+        '3':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.thing.thingml'
+      'patterns': [
+        {
+          'include': '#includes'
+        }
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+        {
+          'include': '#property'
+        }
+        {
+          'include': '#function'
+        }
+        {
+          'include': '#statechart'
+        }
+        {
+          'include': '#message'
+        }
+        {
+          'include': '#port'
+        }
+      ]
+    }
+    {
+      'begin': '(configuration)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'end': '}'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+        {
+          'include': '#instance'
+        }
+        {
+          'include': '#set'
+        }
+        {
+          'include': '#connector'
+        }
+      ]
+    }
+    {
+      'include': '$self'
+    }
+]
+'repository':
+    'set':
+      'match': '(set)\\s+(\\w+).(\\w+)\\s*=\\s*\\w+'
+      'captures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'variable.other.definition.thingml'
+        '3':
+          'name': 'variable.other.definition.thingml'
+    'instance':
+      'match': '(instance)\\s+(\\w+)\\s*:\\s*(\\w+)'
+      'captures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'variable.other.definition.thingml'
+        '3':
+          'name': 'entity.name.class.thingml'
+    'connector':
+      'match': '(connector)\\s+(\\w+).(\\w+)\\s*(=>)\\s*(\\w+).(\\w+)'
+      'captures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'variable.other.definition.thingml'
+        '3':
+          'name': 'entity.name.function.thingml'
+        '4':
+          'name': 'keyword.control.thingml'
+        '5':
+          'name': 'variable.other.definition.thingml'
+        '6':
+          'name': 'entity.name.function.thingml'
+    'internal-transition':
+      'begin': '(internal)(^event)?'
+      'end': '$^'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'patterns': [
+        {
+          'include': '#event'
+        }
+        {
+          'include': '#handler-action'
+        }
+        {
+          'include': '#guard'
+        }
+      ]
+    'transition':
+      'begin': '(transition)\\s+(\\w+)?\\s*(->)\\s*(\\w+)'
+      'end': '$^'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'keyword.control.thingml'
+        '3':
+          'name': 'keyword.control.thingml'
+        '4':
+          'name': 'entity.name.class.thingml'
+      'patterns': [
+        {
+          'include': '#event'
+        }
+        {
+          'include': '#handler-action'
+        }
+        {
+          'include': '#guard'
+        }
+      ]
+    'guard':
+      'begin': '(guard)'
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'patterns': [
+        {
+          'include': "#expression"
+        }
+      ]
+    'event':
+      'begin': '(event)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'end': '$'
+      'patterns': [
+        {
+          'match': '(\\w+\\s*:\\s*)?(\\w+)\\?(\\w+)'
+          'captures':
+            '1':
+              'name': 'variable.other.definition.thingml'
+            '2':
+              'name': 'entity.name.function.thingml'
+            '3':
+              'name': 'entity.name.function.thingml'
+        }
+        {
+          'match': '(\\w+)?(\\w+)'
+          'captures':
+            '1':
+              'name': 'entity.name.function.thingml'
+            '2':
+              'name': 'entity.name.function.thingml'
+        }
+      ]
+    'state-action':
+      'begin': '(on)\\s+(entry|exit)\\s+' #FIXME: we do not always have do...end in case we just have one action
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'keyword.control.thingml'
+        '3':
+          'name': 'keyword.control.thingml'
+      'patterns': [
+        {
+          'include': '#code'
+        }
+      ]
+    'handler-action':
+      'begin': '(action)' #FIXME: we do not always have do...end in case we just have one action
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'keyword.control.thingml'
+        '3':
+          'name': 'keyword.control.thingml'
+      'patterns': [
+        {
+          'include': '#code'
+        }
+      ]
+    'port':
+      'begin': '(provided|required)\\s+(port)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+            'name': 'keyword.control.thingml'
+        '2':
+            'name': 'keyword.control.thingml'
+        '3':
+            'name': 'entity.name.function.thingml'
+      'end': '}'
+      'name': 'meta.port.thingml'
+      'patterns': [
+        {
+          'include': '#sent-received-message'
+        }
+      ]
+    'message':
+      'patterns': [
+        {
+          'begin': '(message)\\s+(\\w+)'
+          'beginCaptures':
+            '1':
+                'name': 'keyword.control.thingml'
+            '2':
+                'name': 'entity.name.function.thingml'
+          'end': '\\)'
+          'name': 'meta.message.thingml'
+          'patterns': [
+            {
+              'include': '#parameters'
+            }
+          ]
+        }
+      ]
+    'typeref':
+      'match': '(\\w+)'
+      'captures':
+        '1':
+          'name': 'entity.name.class.thingml'
+    'function':
+      'begin': '(abstract\\s+)?(function)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'keyword.control.thingml'
+        '3':
+          'name': 'entity.name.function.thingml'
+      'end': '$^'#FIXME: will not always work...
+      'name': 'meta.function.thingml'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+        {
+          'begin': '\\('
+          'end': '\\)(\\s*:\\s*\\w+)?'
+          'name': 'meta.method.identifier.thingml'
+          'patterns': [
+            {
+              'include': '#parameters'
+            }
+          ]
+        }
+        #{
+        #  'begin': ':'
+        #  'end': '(\\s+|\n)'#FIXME: not quite perfect. Won't work if no \n before "do"...
+        #  'patterns': [
+        #    {
+        #      'include': '#typeref'
+        #    }
+        #  ]
+        #}
+        {
+          'include': '#code'
+        }
+        #{
+        #  'begin': '(do)'
+        #  'beginCaptures':
+        #    '1':
+        #      'name': 'keyword.control.thingml'
+        #  'end': '(end)'
+        #  'endCaptures':
+        #    '1':
+        #      'name': 'keyword.control.thingml'
+        #  'patterns': [
+        #    {
+        #      'include': '#code'
+        #    }
+        #  ]
+        #}
+      ]
+    'statechart':
+      'begin': '(statechart)\\s+(\\w+)\\s+(init)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+        '3':
+          'name': 'keyword.control.thingml'
+        '4':
+          'name': 'entity.name.class.thingml'
+      'end': '}'
+      'name': 'meta.statechart.thingml'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+        {
+          'include': '#property'
+        }
+        {
+          'include': '#state'
+        }
+        {
+          'include': '#composite-state'
+        }
+      ]
+    'composite-state':
+      'begin': '(composite state)\\s+(\\w+)\\s+(init)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+        '3':
+          'name': 'keyword.control.thingml'
+        '4':
+          'name': 'entity.name.class.thingml'
+      'end': '}'
+      'name': 'meta.statechart.thingml'
+      'patterns': [
+        {
+          'include': '#property'
+        }
+        {
+          'include': '#state'
+        }
+        {
+          'include': '$self'
+        }
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+      ]
+    'property':
+      'match': '(property|readonly property)\\s+(\\w+)\\s*:\\s*(\\w+)'
+      'captures':
+        '1':
+          'name': 'keyword.property.thingml'
+        '2':
+          'name': 'variable.other.definition.thingml'
+        '3':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.property.thingml'
+    'state':
+      'begin': '(state)\\s+(\\w+)'
+      'end': '}'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.state.thingml'
+      'patterns': [
+        {
+          'include': '#state-action'
+        }
+        {
+          'include': '#transition'
+        }
+        {
+          'include': '#internal-transition'
+        }
+      ]
+    'parameters':
+      'patterns': [
+        {
+          'match': ','
+          'name': 'punctuation.separator.delimiter.thingml'
+        }
+        {
+          'match': '(\\w+)\\s*:\\s*(\\w+)'
+          'captures':
+            '1':
+              'name': 'variable.parameter.thingml'
+            '2':
+              'name': 'entity.name.class.thingml'
+          'name': 'meta.parameters.thingml'
+        }
+      ]
+    'includes': #FIXME: not working
+      'patterns': [
+        {
+          'match': ','
+          'name': 'punctuation.separator.delimiter.thingml'
+        }
+        {
+          'match': '(includes)\\s+(\\w+)'
+          'captures':
+            '1':
+              'name': 'keyword.control.thingml'
+            '2':
+              'name': 'entity.name.class.thingml'
+          'name': 'meta.parameters.thingml'
+        }
+      ]
+    'actual-parameters':
+      'patterns': [
+        {
+          'match': ','
+          'name': 'punctuation.separator.delimiter.thingml'
+        }
+        {
+          'include': '#expression'
+        }
+      ]
+    'sent-received-message':
+      'begin': '(sends|receives)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'end': '\n'
+      'patterns': [
+        {
+          'match': ','
+          'name': 'punctuation.separator.delimiter.thingml'
+        }
+        {
+          'match': '(\\w+)'
+          'captures':
+            '1':
+              'name': 'entity.name.function.thingml'
+          'name': 'meta.sends.thingml'
+        }
+      ]
+    'code':
+      'patterns': [
+        {
+          'include': '#comments'
+        }
+        {
+          'begin':'^end'
+          'end': '$'
+        }        
+        {
+          'include': '#block'
+        }
+        {
+          'include': '#send-message'
+        }
+        {
+          'include': '#print'
+        }
+        {
+          'include': '#if'
+        }
+        {
+          'include': '#else'
+        }
+        {
+          'include': '#function-call'
+        }
+        {
+          'include': '#assign'
+        }
+        #{
+        #  'include': '#extern'
+        #}
+      ]
+    'block':
+      'patterns': [
+        {
+          'begin': '(do)'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.thingml'
+          'end': '(end)'
+          'endCaptures':
+            '1':
+              'name': 'keyword.control.thingml'
+          'patterns': [
+            {
+              'include': '#code'
+            }
+          ]
+          'name': 'meta.block.thingml'
+        }
+      ]
+    'if':
+      'begin': '(if)'
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'patterns' : [
+        {
+          'begin': '\\('
+          'end': '\\)'
+          'patterns': [
+            {
+              'include': '#expression'
+            }
+          ]
+        }
+        {
+          'include': '#code'
+        }
+        {
+          'include': '#else'
+        }
+      ]
+    'else':
+      'begin': '(else)'
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'patterns' : [
+        {
+          'include': '#code'
+        }
+      ]
+    'send-message':
+      'begin': '(\\w+)(!)(\\w+)\\s*\\('
+      'beginCaptures':
+        '1':
+          'name': 'entity.name.function.thingml'
+        '2':
+          'name': 'punctuation.separator.delimiter.java'
+        '3':
+          'name': 'entity.name.function.thingml'
+      'end': '\\)'
+      'patterns' : [
+        {
+          'include': '#actual-parameters'
+        }
+      ]
+      'name': 'meta.send.thingml'
+    'function-call':
+      'begin': '(\\w+)\\s*\\('
+      'beginCaptures':
+        '1':
+          'name': 'entity.name.function.thingml'
+      'end': '\\)'
+      'patterns' : [
+        {
+          'include': '#actual-parameters'
+        }
+      ]
+      'name': 'meta.send.thingml'
+    'assign':
+      'begin': '(\\w+)\\s*='
+      'beginCaptures':
+        '1':
+          'name': 'variable.other.definition.thingml'
+      'end': '\n'
+      'patterns' : [
+        {
+          'include': '#expression'
+        }
+      ]
+      'name': 'meta.assign.thingml'
+    'print':
+      'patterns': [
+        {
+          'begin': '(print)\\s+'
+          'beginCaptures':
+            '1':
+              'name': 'keyword.control.thingml'
+          'end': '\n'
+          'patterns': [
+            {
+              'include': '#expression'
+            }
+          ]
+        }
+      ]
+    'expression':
+      'patterns': [
+        {
+          'include': '#number'
+        }
+        {
+          'include': '#string'
+        }
+        {
+          'include': '#arithmetic'
+        }
+        #{
+        #  'include': '#extern'
+        #}
+      ]
+    'arithmetic':
+      'match': '\\w+\\s*(\\-|\\+|\\*|\\/|%)\\s*\\w+'
+      'name': 'keyword.operator.arithmetic.thingml'
+    'number':
+      'match': '(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))'
+      'name': 'constant.numeric.thingml'
+    #'extern': #FIXME: not working...
+    #  'begin': '\''
+    #  'end': '\''
+    #  'patterns': [
+    #    {
+    #      'include': '#string'
+    #    }
+    #  ]
+    'string':
+      'patterns': [
+        {
+          'begin': '"'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.java'
+          'end': '"'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.java'
+          'name': 'string.quoted.double.java'
+          'patterns': [
+            {
+              'match': '\\\\.'
+              'name': 'constant.character.escape.java'
+            }
+          ]
+        }
+      ]
+    'comments':
+      'patterns': [
+        {
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.thingml'
+          'begin': '/\\*'
+          'end': '\\*/'
+          'name': 'comment.block.empty.java'
+        }
+        {
+          'include': '#comments-inline'
+        }
+      ]
+    'comments-inline':
+      'patterns': [
+        {
+          'begin': '/\\*'
+          'captures':
+            '0':
+              'name': 'punctuation.definition.comment.thingml'
+          'end': '\\*/'
+          'name': 'comment.block.java'
+        }
+        {
+          'begin': '(^[ \\t]+)?(?=//)'
+          'beginCaptures':
+            '1':
+              'name': 'punctuation.whitespace.comment.leading.thingml'
+          'end': '(?!\\G)'
+          'patterns': [
+            {
+              'begin': '//'
+              'beginCaptures':
+                '0':
+                  'name': 'punctuation.definition.comment.thingml'
+              'end': '\\n'
+              'name': 'comment.line.double-slash.thingml'
+            }
+          ]
+        }
+    ]
+    'annotation':
+      'patterns': [
+        {
+          'match': '(@\\w+)\\s+("\\w+")'
+          'captures':
+            '1':
+              'name': 'storage.type.annotation'
+            '2':
+              'name': 'entity.name.class.thingml'
+        }
+      ]
