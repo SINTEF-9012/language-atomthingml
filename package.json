@@ -8,10 +8,10 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/SINTEF-9012/ThingML.git"
+    "url": "https://github.com/SINTEF-9012/language-atomthingml"
   },
   "bugs": {
-    "url": "https://github.com/SINTEF-9012/ThingML/issues"
+    "url": "https://github.com/SINTEF-9012/language-atomthingml/issues"
   },
   "license": "Apache 2.0"
 }

@@ -43,6 +43,27 @@
       ]
     }
     {
+      'begin': '(enumeration)\\s+(\\w+)'
+      'end': '}'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.class.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.datatype.thingml'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+        {
+          'match': '(\\w+)'
+          'captures':
+            '1':
+              'name': 'keyword.control.thingml'
+        }
+      ]
+    }
+    {
       'begin': '(thing)(\\s+fragment)?\\s+(\\w+)'
       'end': '}'
       'beginCaptures':
@@ -320,33 +341,9 @@
             }
           ]
         }
-        #{
-        #  'begin': ':'
-        #  'end': '(\\s+|\n)'#FIXME: not quite perfect. Won't work if no \n before "do"...
-        #  'patterns': [
-        #    {
-        #      'include': '#typeref'
-        #    }
-        #  ]
-        #}
         {
           'include': '#code'
         }
-        #{
-        #  'begin': '(do)'
-        #  'beginCaptures':
-        #    '1':
-        #      'name': 'keyword.control.thingml'
-        #  'end': '(end)'
-        #  'endCaptures':
-        #    '1':
-        #      'name': 'keyword.control.thingml'
-        #  'patterns': [
-        #    {
-        #      'include': '#code'
-        #    }
-        #  ]
-        #}
       ]
     'statechart':
       'begin': '(statechart)\\s+(\\w+)\\s+(init)\\s+(\\w+)'
@@ -393,6 +390,12 @@
       'name': 'meta.statechart.thingml'
       'patterns': [
         {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
+        {
           'include': '#property'
         }
         {
@@ -400,12 +403,6 @@
         }
         {
           'include': '$self'
-        }
-        {
-          'include': '#annotation'
-        }
-        {
-          'include': '#comments'
         }
       ]
     'property':
@@ -428,6 +425,12 @@
           'name': 'entity.name.class.thingml'
       'name': 'meta.state.thingml'
       'patterns': [
+        {
+          'include': '#annotation'
+        }
+        {
+          'include': '#comments'
+        }
         {
           'include': '#state-action'
         }
@@ -518,10 +521,16 @@
           'include': '#print'
         }
         {
+          'include': '#fork'
+        }
+        {
           'include': '#if'
         }
         {
           'include': '#else'
+        }
+        {
+          'include': '#while'
         }
         {
           'include': '#function-call'
@@ -553,6 +562,33 @@
             }
           ]
           'name': 'meta.block.thingml'
+        }
+      ]
+    'fork':
+      'match': '(fork)\\s+(\\w+)'
+      'captures':
+        '1':
+          'name': 'keywork.control.thingml'
+        '2':
+          'name': 'entity.name.class.thingml'
+    'while':
+      'begin': '(while)'
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'patterns' : [
+        {
+          'begin': '\\('
+          'end': '\\)'
+          'patterns': [
+            {
+              'include': '#expression'
+            }
+          ]
+        }
+        {
+          'include': '#code'
         }
       ]
     'if':
@@ -793,13 +829,31 @@
         }
     ]
     'annotation':
+      'begin': '(@\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+      'end': '\\s+'
       'patterns': [
         {
-          'match': '(@\\w+)\\s+("\\w+")'
-          'captures':
-            '1':
-              'name': 'storage.type.annotation'
-            '2':
-              'name': 'entity.name.class.thingml'
+          'begin': '"'
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.java'
+          'end': '"'
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.java'
+          'name': 'string.quoted.single.java'
+          'patterns': [
+            {
+              'begin': '"'
+              'end': '("|$)'
+            }
+            {
+              'begin': '$'
+              'end': '^'
+            }
+          ]
         }
       ]
