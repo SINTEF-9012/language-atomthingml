@@ -1,0 +1,7 @@
+{
+  "pathToCLI": {
+    "description": "Path to the ThingML compilers (JAR file)",
+    "type": "string",
+    "default": false
+  }
+}

@@ -65,7 +65,7 @@ thing MyThing
       transition -> RUN
       event p?m
       guard "hello"
-      
+
 
       transition -> INIT
       event e : p?m

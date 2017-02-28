@@ -1,9 +1,19 @@
 {
   "name": "language-thingml",
   "version": "0.1.0",
+  "main": "./lib/main",
   "description": "ThingML language support in Atom",
   "engines": {
     "atom": "*"
+  },
+  "activationCommands": {
+    "atom-workspace": [
+      "language-thingml:check",
+      "language-thingml:compile-arduino",
+      "language-thingml:compile-nodejs",
+      "language-thingml:compile-java",
+      "language-thingml:compile-posix"
+    ]
   },
   "dependencies": {},
   "repository": {

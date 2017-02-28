@@ -1,0 +1,70 @@
+#FIXME: avoid duplication of menus...
+
+'context-menu':
+  'atom-workspace atom-text-editor:not(.mini)': [
+    'label': 'ThingML'
+    'submenu': [
+      { 'label': 'Check', 'command': 'language-thingml:check' }
+      {
+        'label': 'Compile to'
+        'submenu': [
+          { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
+          { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
+          { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+          { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+        ]
+      }
+    ]
+  ]
+  '.tree-view .file > .name': [
+    'label': 'ThingML'
+    'submenu': [
+      { 'label': 'Check', 'command': 'language-thingml:check' }
+      {
+        'label': 'Compile to'
+        'submenu': [
+          { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
+          { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
+          { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+          { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+        ]
+      }
+    ]
+  ]
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'ThingML'
+      'submenu': [
+        { 'label': 'Check', 'command': 'language-thingml:check' }
+        {
+          'label': 'Compile to'
+          'submenu': [
+            { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
+            { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
+            { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+            { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+          ]
+        }
+      ]
+    ]
+  }
+]
+#'context-menu':
+#    'atom-text-editor .tree-view .file > .thingml': [
+#      'label': 'ThingML'
+#      'submenu': [
+#        { 'label': 'Check', 'command': 'language-thingml:check' }
+#        {
+#          'label': 'Compile to'
+#          'submenu': [
+#            { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
+#            { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
+#            { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+#            { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+#          ]
+#        }
+#      ]
+#    ]
