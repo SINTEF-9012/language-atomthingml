@@ -507,7 +507,7 @@
         {
           'begin':'^end'
           'end': '$'
-        }        
+        }
         {
           'include': '#block'
         }
@@ -529,9 +529,12 @@
         {
           'include': '#assign'
         }
-        #{
-        #  'include': '#extern'
-        #}
+        {
+          'include': '#extern'
+        }
+        {
+          'include': '#in-extern'
+        }
       ]
     'block':
       'patterns': [
@@ -652,9 +655,12 @@
         {
           'include': '#arithmetic'
         }
-        #{
-        #  'include': '#extern'
-        #}
+        {
+          'include': '#extern'
+        }
+        {
+          'include': '#in-extern'
+        }
       ]
     'arithmetic':
       'match': '\\w+\\s*(\\-|\\+|\\*|\\/|%)\\s*\\w+'
@@ -686,6 +692,60 @@
             {
               'match': '\\\\.'
               'name': 'constant.character.escape.java'
+            }
+          ]
+        }
+      ]
+    'extern':
+      'patterns': [
+        {
+          'begin': '\''
+          'beginCaptures':
+            '0':
+              'name': 'punctuation.definition.string.begin.java'
+          'end': '\''
+          'endCaptures':
+            '0':
+              'name': 'punctuation.definition.string.end.java'
+          'name': 'string.quoted.single.java'
+          'patterns': [
+            {
+              'include': '#in-extern'
+            }
+            {
+              'begin': '\''
+              'end': '$'
+            }
+            {
+              'begin': '$'
+              'end': '^'
+            }
+          ]
+        }
+      ]
+    'in-extern':
+      'patterns': [
+        {
+          'begin': '\'\\s*&'
+          'beginCaptures':
+            '0':
+              'name': 'keyword.control.thingml'
+          'end': '&\\s*\''
+          'endCaptures':
+            '0':
+              'name': 'keyword.control.thingml'
+          'name': 'constant.numeric.thingml'
+          'patterns': [
+            {
+              'include': '#expression'
+            }
+            {
+              'begin': '&'
+              'end': '$'
+            }
+            {
+              'begin': '$'
+              'end': '^'
             }
           ]
         }
