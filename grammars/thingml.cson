@@ -376,7 +376,7 @@
         }
       ]
     'composite-state':
-      'begin': '(composite state)\\s+(\\w+)\\s+(init)\\s+(\\w+)'
+      'begin': '(region|session|composite state)\\s+(\\w+)\\s+(init)\\s+(\\w+)'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -416,7 +416,7 @@
           'name': 'entity.name.class.thingml'
       'name': 'meta.property.thingml'
     'state':
-      'begin': '(state)\\s+(\\w+)'
+      'begin': '(final state|state)\\s+(\\w+)'
       'end': '}'
       'beginCaptures':
         '1':
