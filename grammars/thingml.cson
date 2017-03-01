@@ -416,7 +416,7 @@
           'name': 'entity.name.class.thingml'
       'name': 'meta.property.thingml'
     'state':
-      'begin': '(final state|state)\\s+(\\w+)'
+      'begin': '(state)\\s+(\\w+)'
       'end': '}'
       'beginCaptures':
         '1':

@@ -1,0 +1,9 @@
+{
+  "atom-text-editor[data-grammar='source thingml']": {
+    "ctrl-alt-v": "language-thingml:check",
+    "ctrl-alt-n": "language-thingml:compile-nodejs",
+    "ctrl-alt-j": "language-thingml:compile-java",
+    "ctrl-alt-a": "language-thingml:compile-arduino",
+    "ctrl-alt-p": "language-thingml:compile-posix"
+  }
+}
