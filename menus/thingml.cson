@@ -12,6 +12,7 @@
           { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
           { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
           { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+          { 'label': 'UML', 'command': 'language-thingml:compile-uml'}
         ]
       }
     ]
@@ -27,6 +28,7 @@
           { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
           { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
           { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+          { 'label': 'UML', 'command': 'language-thingml:compile-uml'}
         ]
       }
     ]
@@ -46,6 +48,7 @@
             { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
             { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
             { 'label': 'Java', 'command': 'language-thingml:compile-java'}
+            { 'label': 'UML', 'command': 'language-thingml:compile-uml'}            
           ]
         }
       ]
