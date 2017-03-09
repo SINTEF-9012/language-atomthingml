@@ -19,7 +19,7 @@
     }
     {
       'begin': '(import)'
-      'end': '\n'
+      'end': '$'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -29,7 +29,7 @@
     }
     {
       'begin': '(datatype|object)\\s+(\\w+)'
-      'end': ';\n'
+      'end': ';'
       'beginCaptures':
         '1':
           'name': 'keyword.class.thingml'
@@ -151,7 +151,7 @@
         '3':
           'name': 'entity.name.class.thingml'
     'connector':
-      'match': '(connector)\\s+(\\w+).(\\w+)\\s*(=>)\\s*(\\w+).(\\w+)'
+      'match': '(connector)\\s+(\\w+).(\\w+)\\s*(=>|over)\\s*(\\w+)(.(\\w+))?'
       'captures':
         '1':
           'name': 'keyword.control.thingml'
@@ -167,7 +167,7 @@
           'name': 'entity.name.function.thingml'
     'internal-transition':
       'begin': '(internal)(^event)?'
-      'end': '$^'
+      'end': '^$'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -178,15 +178,15 @@
           'include': '#event'
         }
         {
-          'include': '#handler-action'
+          'include': '#guard'
         }
         {
-          'include': '#guard'
+          'include': '#handler-action'
         }
       ]
     'transition':
       'begin': '(transition)\\s+(\\w+)?\\s*(->)\\s*(\\w+)'
-      'end': '$^'
+      'end': '^$'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -201,10 +201,10 @@
           'include': '#event'
         }
         {
-          'include': '#handler-action'
+          'include': '#guard'
         }
         {
-          'include': '#guard'
+          'include': '#handler-action'
         }
       ]
     'guard':
@@ -322,7 +322,7 @@
           'name': 'keyword.control.thingml'
         '3':
           'name': 'entity.name.function.thingml'
-      'end': '$^'#FIXME: will not always work...
+      'end': '^$'#FIXME: will not always work...
       'name': 'meta.function.thingml'
       'patterns': [
         {
@@ -406,8 +406,9 @@
         }
       ]
     'property':
-      'match': '(property|readonly property)\\s+(\\w+)\\s*:\\s*(\\w+)'
-      'captures':
+      'begin': '(property|readonly property)\\s+(\\w+)\\s*:\\s*(\\w+)'
+      'end': '$'
+      'beginCaptures':
         '1':
           'name': 'keyword.property.thingml'
         '2':
@@ -415,6 +416,39 @@
         '3':
           'name': 'entity.name.class.thingml'
       'name': 'meta.property.thingml'
+      'patterns': [
+        {
+          'match': '='
+          'captures':
+            '1':
+              'name': 'keyword.control.thingml'
+        }
+        {
+          'include': '#expression'
+        }
+      ]
+    'variable':
+      'begin': '(var|readonly var)\\s+(\\w+)\\s*:\\s*(\\w+)'
+      'end': '$'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.property.thingml'
+        '2':
+          'name': 'variable.other.definition.thingml'
+        '3':
+          'name': 'entity.name.class.thingml'
+      'name': 'meta.variable.thingml'
+      'patterns': [
+        {
+          'match': '='
+          'captures':
+            '1':
+              'name': 'keyword.control.thingml'
+        }
+        {
+          'include': '#expression'
+        }
+      ]
     'state':
       'begin': '(state)\\s+(\\w+)'
       'end': '}'
@@ -457,20 +491,23 @@
           'name': 'meta.parameters.thingml'
         }
       ]
-    'includes': #FIXME: not working
+    'includes':
+      'begin': '(includes)'
+      'end': '$|@|{'
+      'name': 'meta.parameters.thingml'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
       'patterns': [
+        {
+          'match': '(\\w+)'
+          'captures':
+            '1':
+              'name': 'entity.name.class.thingml'
+        }
         {
           'match': ','
           'name': 'punctuation.separator.delimiter.thingml'
-        }
-        {
-          'match': '(includes)\\s+(\\w+)'
-          'captures':
-            '1':
-              'name': 'keyword.control.thingml'
-            '2':
-              'name': 'entity.name.class.thingml'
-          'name': 'meta.parameters.thingml'
         }
       ]
     'actual-parameters':
@@ -488,7 +525,7 @@
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
-      'end': '\n'
+      'end': '$'
       'patterns': [
         {
           'match': ','
@@ -507,9 +544,12 @@
         {
           'include': '#comments'
         }
+        #{
+        #  'begin':'^end'
+        #  'end': '$'
+        #}
         {
-          'begin':'^end'
-          'end': '$'
+          'include': '#variable'
         }
         {
           'include': '#block'
@@ -658,7 +698,7 @@
       'beginCaptures':
         '1':
           'name': 'variable.other.definition.thingml'
-      'end': '\n'
+      'end': '$'
       'patterns' : [
         {
           'include': '#expression'
@@ -668,11 +708,11 @@
     'print':
       'patterns': [
         {
-          'begin': '(print)\\s+'
+          'begin': '(print|error)\\s+'
           'beginCaptures':
             '1':
               'name': 'keyword.control.thingml'
-          'end': '\n'
+          'end': '$'
           'patterns': [
             {
               'include': '#expression'
@@ -689,6 +729,9 @@
           'include': '#string'
         }
         {
+          'include': '#boolean'
+        }
+        {
           'include': '#arithmetic'
         }
         {
@@ -698,20 +741,20 @@
           'include': '#in-extern'
         }
       ]
-    'arithmetic':
-      'match': '\\w+\\s*(\\-|\\+|\\*|\\/|%)\\s*\\w+'
-      'name': 'keyword.operator.arithmetic.thingml'
+    'arithmetic': #FIXME: left and right should be expressions, not just words...
+      'match': '\\w+\\s*(\\-|\\+|\\*|\\/|%|==|!=|<|>|<=|>=|and|or)\\s*\\w+'
+      'captures':
+        '1':
+          'name': 'keyword.control.thingml'
     'number':
       'match': '(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))'
       'name': 'constant.numeric.thingml'
-    #'extern': #FIXME: not working...
-    #  'begin': '\''
-    #  'end': '\''
-    #  'patterns': [
-    #    {
-    #      'include': '#string'
-    #    }
-    #  ]
+      'captures':
+        '1':
+          'name': 'keyword.control.thingml'
+    'boolean':
+      'match': '(true|false)'
+      'name': 'constant.boolean.thingml'
     'string':
       'patterns': [
         {
