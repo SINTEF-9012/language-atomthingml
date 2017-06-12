@@ -11,6 +11,7 @@
           { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
           { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
           { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+          { 'label': 'Browser', 'command': 'language-thingml:compile-browser'}
           { 'label': 'Java', 'command': 'language-thingml:compile-java'}
           { 'label': 'UML', 'command': 'language-thingml:compile-uml'}
         ]
@@ -27,6 +28,7 @@
           { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
           { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
           { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+          { 'label': 'Browser', 'command': 'language-thingml:compile-browser'}
           { 'label': 'Java', 'command': 'language-thingml:compile-java'}
           { 'label': 'UML', 'command': 'language-thingml:compile-uml'}
         ]
@@ -47,8 +49,9 @@
             { 'label': 'Arduino', 'command': 'language-thingml:compile-arduino'}
             { 'label': 'POSIX', 'command': 'language-thingml:compile-posix'}
             { 'label': 'NodeJS', 'command': 'language-thingml:compile-nodejs'}
+            { 'label': 'Browser', 'command': 'language-thingml:compile-browser'}
             { 'label': 'Java', 'command': 'language-thingml:compile-java'}
-            { 'label': 'UML', 'command': 'language-thingml:compile-uml'}            
+            { 'label': 'UML', 'command': 'language-thingml:compile-uml'}
           ]
         }
       ]
