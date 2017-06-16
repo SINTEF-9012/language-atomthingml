@@ -88,6 +88,9 @@
           'include': '#property'
         }
         {
+          'include': '#abs-function'
+        }
+        {
           'include': '#function'
         }
         {
@@ -261,7 +264,7 @@
       ]
     'handler-action':
       'begin': '(action)' #FIXME: we do not always have do...end in case we just have one action
-      'end': '$'
+      'end': '\n|\r\n'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -275,7 +278,7 @@
         }
       ]
     'port':
-      'begin': '(provided|required)\\s+(port)\\s+(\\w+)'
+      'begin': '(provided|required|internal)\\s+(port)\\s+(\\w+)'
       'beginCaptures':
         '1':
             'name': 'keyword.control.thingml'
@@ -313,8 +316,8 @@
       'captures':
         '1':
           'name': 'entity.name.class.thingml'
-    'function':
-      'begin': '(abstract\\s+)?(function)\\s+(\\w+)'
+    'abs-function':
+      'begin': '(abstract\\s+function)\\s+(\\w+)'
       'beginCaptures':
         '1':
           'name': 'keyword.control.thingml'
@@ -322,8 +325,39 @@
           'name': 'keyword.control.thingml'
         '3':
           'name': 'entity.name.function.thingml'
-      'end': '^$'#FIXME: will not always work...
+      'end': '\n|\r\n'#FIXME: will not always work...
       'name': 'meta.function.thingml'
+      'patterns': [
+        {
+          'include': '#annotation'
+        }
+        #{
+        #  'include': '#comments'
+        #}
+        {
+          'begin': '\\('
+          'end': '\\)(\\s*:\\s*\\w+)?'
+          'name': 'meta.method.identifier.thingml'
+          'patterns': [
+            {
+              'include': '#parameters'
+            }
+          ]
+        }
+      ]
+    'function':
+      'begin': '(function)\\s+(\\w+)'
+      'beginCaptures':
+        '1':
+          'name': 'keyword.control.thingml'
+        '2':
+          'name': 'keyword.control.thingml'
+        '3':
+          'name': 'entity.name.function.thingml'
+      'end': '\n|\r\n'#'^$'#FIXME: will not always work...
+      'name': 'meta.function.thingml'
+      'foldingStartMarker' : 'do'
+      'foldingStopMarker' : 'end'
       'patterns': [
         {
           'include': '#annotation'
@@ -366,6 +400,12 @@
           'include': '#comments'
         }
         {
+          'include': '#state-action'
+        }
+        {
+          'include': '#internal-transition'
+        }
+        {
           'include': '#property'
         }
         {
@@ -394,6 +434,15 @@
         }
         {
           'include': '#comments'
+        }
+        {
+          'include': '#state-action'
+        }
+        {
+          'include': '#transition'
+        }
+        {
+          'include': '#internal-transition'
         }
         {
           'include': '#property'
@@ -542,6 +591,9 @@
     'code':
       'patterns': [
         {
+          'include': '#block'
+        }
+        {
           'include': '#comments'
         }
         #{
@@ -550,9 +602,6 @@
         #}
         {
           'include': '#variable'
-        }
-        {
-          'include': '#block'
         }
         {
           'include': '#send-message'
@@ -694,11 +743,11 @@
       ]
       'name': 'meta.send.thingml'
     'assign':
-      'begin': '(\\w+)\\s*='
+      'begin': '(\\w+)(\\[\\d+\\])?\\s*='
       'beginCaptures':
         '1':
           'name': 'variable.other.definition.thingml'
-      'end': '$'
+      'end': '\n|\r\n'
       'patterns' : [
         {
           'include': '#expression'
@@ -865,7 +914,7 @@
               'beginCaptures':
                 '0':
                   'name': 'punctuation.definition.comment.thingml'
-              'end': '\\n'
+              'end': '\n'
               'name': 'comment.line.double-slash.thingml'
             }
           ]
